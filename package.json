@@ -1,0 +1,29 @@
+{
+  "name": "seekers",
+  "version": "1.0.0",
+  "description": "This is \"Seekers\", a website that connects individuals who have lost personal possessions with those who have found personal possessions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyp3rion123/Seekers.git"
+  },
+  "keywords": [
+    "lost",
+    "found",
+    "connect"
+  ],
+  "author": "Andrei Gliga, Lucas Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyp3rion123/Seekers/issues"
+  },
+  "homepage": "https://github.com/hyp3rion123/Seekers#readme",
+  "dependencies": {
+    "dotenv": "^9.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.6"
+  }
+}

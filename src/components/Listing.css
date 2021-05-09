@@ -20,3 +20,8 @@
 legend {
   margin-top: 1rem;
 }
+
+.inputButton {
+  padding: 5px 10px;
+  cursor: pointer;
+}

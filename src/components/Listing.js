@@ -94,7 +94,7 @@ const Listing = (props) => {
                     <textarea className="inputBox" id="contact" name="contact" rows="3" cols="50" value={details.contact} onChange={handleContact} required /><br />
                     <label for="desc">Description of Item:</label><br />
                     <textarea className="inputBox" id="desc" name="desc" rows="7" cols="50" value={details.desc} onChange={handleDesc} required /><br />
-                    <input type="submit" value="Post Listing" />
+                    <input className="inputButton" type="submit" value="Post Listing" />
                 </fieldset>
             </form>
         </div>

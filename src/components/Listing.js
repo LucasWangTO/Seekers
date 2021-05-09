@@ -50,7 +50,7 @@ const Listing = (props) => {
 
         let data = {
             ...details,
-            location: [parseInt(latRef.current.value), parseInt(longRef.current.value)]
+            location: [parseFloat(latRef.current.value), parseFloat(longRef.current.value)]
         }
 
         try {

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import Header from './Header'
 
 const emptyDetails = {
     isLost: false,
@@ -74,6 +75,7 @@ const Listing = (props) => {
 
     return (
         <div>
+            <Header />
             <form onSubmit={handleSubmit} >
                 <fieldset>
                     <legend>Create a new Listing:</legend>

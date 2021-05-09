@@ -4,6 +4,7 @@ import {
     Route
 } from "react-router-dom";
 import Listing from './Listing'
+import Posts from './Posts'
 import MapView from './MapView'
 
 const App = () => {
@@ -12,6 +13,9 @@ const App = () => {
             <Switch>
                 <Route path="/listing">
                     <Listing />
+                </Route>
+                <Route path="/posts">
+                    <Posts />
                 </Route>
                 <Route path="/">
                     <MapView />

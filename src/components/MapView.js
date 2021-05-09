@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import { Link } from 'react-router-dom';
 import Markers from './Markers'
@@ -60,7 +60,7 @@ const MapView = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <AddMarker/>
-          {markerData.filter(data => data.isLost === isLost).map(data => <Markers data={data} />)}
+          {markerData.filter(data => data.isLost === isLost).map((data, index) => <Markers key={index} data={data} />)}
         </MapContainer>
       </div>
   );

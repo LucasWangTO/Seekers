@@ -1,0 +1,25 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333;
+  overflow: hidden;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px 30px;
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+
+li:last-child {
+  border-right: 1px solid #bbb;
+  border-left: 1px solid #bbb;
+}

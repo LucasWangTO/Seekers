@@ -27,7 +27,7 @@ const AddMarker = () => {
     <Marker position={position}>
       <Popup>        
         <Link to={ newTo }>
-          <button type="button">
+          <button type="button" className="createFormButton">
             Create Form
           </button>
         </Link>
@@ -41,7 +41,7 @@ const MapView = () => {
   const [isLost, setIsLost] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:9000/getPosts')
+    fetch('/.netlify/functions/getPosts')
     .then(response => response.json())
     .then(data => setMarkerData(data.data))
   }, [])

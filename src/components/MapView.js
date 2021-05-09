@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMapEvents } from 'react-leaflet'
 import { Link } from 'react-router-dom';
+import Markers from './Markers'
 import './MapView.css'
 
 const initialPosition = [43.653225, -79.383186];
@@ -42,6 +43,7 @@ const MapView = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
     <AddMarker/>
+    
   </MapContainer>
   );
 }

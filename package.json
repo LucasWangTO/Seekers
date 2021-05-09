@@ -7,6 +7,10 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "dotenv": "^9.0.1",
+<<<<<<< HEAD
+=======
+    "encoding": "^0.1.13",
+>>>>>>> 75c2317ea74749dfcbf88798c80e8cff1dc16c91
     "faunadb": "^4.2.0",
     "http-proxy-middleware": "^2.0.0",
     "leaflet": "^1.7.1",
@@ -26,7 +30,7 @@
     "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
     "build": "npm-run-all --parallel build:**",
     "build:app": "react-scripts build",
-    "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
+    "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "bootstrap": "node ./scripts/bootstrap-fauna-database.js"

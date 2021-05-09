@@ -82,7 +82,7 @@ const Listing = (props) => {
                     <legend>Create a new Listing:</legend>
                     <input className="inputBox" type="radio" id="lost" name="typePost" value="lost" onChange={handleRadio} required />
                     <label>Lost Item</label>
-                    <input className="inputBox" type="radio" id="found" name="typePost" value="found" onChange={handleRadio} />
+                    <input className="inputBox foundItem" type="radio" id="found" name="typePost" value="found" onChange={handleRadio} />
                     <label>Found Item</label><br />
                     <label for="name">Name:</label><br />
                     <input className="inputBox" type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required /><br />

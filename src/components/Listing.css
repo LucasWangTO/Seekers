@@ -6,9 +6,17 @@
   border-color: rgb(59, 58, 58);
   border-radius: 10px;
   border-width: thin medium;
-  margin-bottom: 14px;
+  margin-bottom: 1.2rem;
 }
 
 .inputBox:focus {
   background-color: #d3f1ff;
+}
+
+.foundItem {
+  margin-left: 2rem;
+}
+
+legend {
+  margin-top: 1rem;
 }

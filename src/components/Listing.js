@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const emptyDetails = {
     isLost: false,
@@ -7,10 +8,13 @@ const emptyDetails = {
     desc: ""
 }
 
-const Listing = () => {
+const Listing = (props) => {
     const [details, setDetails] = useState(emptyDetails);
     const latRef = useRef();
     const longRef = useRef();
+    const location = useLocation();
+
+    console.log(location.state);
 
     const handleRadio = (event) => {
         setDetails({
@@ -80,9 +84,9 @@ const Listing = () => {
                     <label for="name">Name:</label><br />
                     <input type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required /><br />
                     <label for="Latitude">Latitude of item:</label><br />
-                    <input type="number" id="Latitude" name="Latitude" step="any" ref={latRef} required /><br />
+                    <input type="number" id="Latitude" name="Latitude" step="any" defaultValue={location.state ? location.state.lat : ""} ref={latRef} required /><br />
                     <label for="Longitude">Longitude of item:</label><br />
-                    <input type="number" id="Longitude" name="Longitude" step="any" ref={longRef} required /><br />
+                    <input type="number" id="Longitude" name="Longitude" step="any" defaultValue={location.state ? location.state.lng : ""} ref={longRef} required /><br />
                     <label for="contact">Contact Information:</label><br />
                     <textarea id="contact" name="contact" rows="3" cols="50" value={details.contact} onChange={handleContact} required /><br />
                     <label for="desc">Description of Item:</label><br />

@@ -1,4 +1,26 @@
+.boundary {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .leaflet-container {
   width: 100%;
-  height: 80vh;
+  height: 100%;
+}
+
+.toggle {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.toggle:hover {
+  background-color: gray; /* Green */
+  color: white;
 }

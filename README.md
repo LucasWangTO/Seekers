@@ -1,4 +1,4 @@
-## Getting Started with Create React App
+# Seekers - Connecting people seeking lost personal possessions
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

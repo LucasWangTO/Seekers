@@ -48,12 +48,18 @@ const MapView = () => {
 
   const handleClick = () => {
     setIsLost(!isLost);
+    
+    if(isLost) {
+      document.getElementById("toggleButton").style.background='#eb0e0e';
+    } else {
+      document.getElementById("toggleButton").style.background='#4caf50';
+    }
   }
 
     return (
       <div className="boundary">
         <Header />
-        <button className="toggle" onClick={handleClick}>Show {isLost ? "Found Items" : "Lost Items"}</button>
+        <button className="toggle" id="toggleButton" onClick={handleClick}>Show {isLost ? "Found Items" : "Lost Items"}</button>
         <MapContainer center={initialPosition} zoom={13} scrollWheelZoom={true}>
           <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

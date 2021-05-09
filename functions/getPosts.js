@@ -2,9 +2,9 @@ import faunadb, { query as q } from "faunadb"
 
 var adminClient = new faunadb.Client({ secret: 'fnAEItsVu2ACA2xnQKBjCYt69iXgrT_gjzRHQ8-1'})
 var serverClient = new faunadb.Client({ secret: 'fnAEIuaAmlACAsthLYUtmglhvf3_lcCrU2x9wVCi' });
-var toReturn = [];
 
 exports.handler = (event, context, callback) => {
+  var toReturn = [];
     return serverClient.query(
         q.Map(
             q.Paginate(q.Documents(q.Collection('posts'))),
@@ -29,4 +29,4 @@ exports.handler = (event, context, callback) => {
             body: JSON.stringify(error)
           })
     })  
-  }
+  }  

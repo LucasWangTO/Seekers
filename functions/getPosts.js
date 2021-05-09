@@ -3,6 +3,12 @@ import faunadb, { query as q } from "faunadb"
 var adminClient = new faunadb.Client({ secret: 'fnAEItsVu2ACA2xnQKBjCYt69iXgrT_gjzRHQ8-1'})
 var serverClient = new faunadb.Client({ secret: 'fnAEIuaAmlACAsthLYUtmglhvf3_lcCrU2x9wVCi' });
 
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+};
+
 exports.handler = async (event, context, callback) => {
 
   let toReturn = [];
@@ -18,13 +24,12 @@ exports.handler = async (event, context, callback) => {
       toReturn.push(response.data[i].data);
     }
 
-    console.log(response)
-
     return {
         statusCode: 200,
         body: JSON.stringify({
           data: toReturn
-      })
+        }),
+        headers
     }
 
   } catch (err) {

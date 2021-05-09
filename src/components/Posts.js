@@ -6,13 +6,13 @@ const Table = () => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:9000/getPosts')
+        fetch('/.netlify/functions/...')
         .then(response => response.json())
         .then(data => 
             setData(data.data.slice().map(item => {
               var temp = Object.assign({}, item);
               temp.location = temp.location.join(",");
-              temp.isLost = temp.isLost.toString();
+              temp.isLost = temp.isLost ? "Lost":"Found";
               return temp;
             })))
     }, [])
@@ -32,7 +32,7 @@ const Table = () => {
                     accessor: 'location',
                 },
                 {
-                    Header: 'Is Lost',
+                    Header: 'Type',
                     accessor: 'isLost',
                 },
                 {

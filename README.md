@@ -5,13 +5,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Description
 Seekers is a platform that allows users to share information about where personal possessions were lost or/and found. With LeafletJS, we provide the option for users to select the location where the item was lost/found on a map and create a post with their relevant information. Additionally, users can browse existing posts that are stored on a FaunaDB database.
 
-##Technology Choice
+## Technology Choice
 We used ReactJS because of its extensive libraries, support and seamless flow with NodeJS which we were most comfortable developing the backend in. FaunaDB and Netlify are both pieces of software that are easy to use and work in tandem to easily deploy a website.
 
-##Challenges
+## Challenges
 Because we each both wanted to learn the full stack of development, we decided to swap roles (front-end <-> back-end) midway through the project in order to maxmize learning. The downside was that we spent more time catching up with what the other person had coded and understanding the work.
 
-##Team Members
+## Team Members
 Lucas Wang: https://github.com/LucasWangTO
 Andrei Gliga: https://github.com/hyp3rion123
 

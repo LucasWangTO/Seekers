@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import { Link } from 'react-router-dom';
 import Markers from './Markers'
@@ -45,15 +45,22 @@ const MapView = () => {
     .then(data => setMarkerData(data.data))
   }, [])
 
+  const handleClick = () => {
+    setIsLost(!isLost);
+  }
+
     return (
-    <MapContainer center={initialPosition} zoom={13} scrollWheelZoom={true}>
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-    <AddMarker/>
-    {markerData.filter(data => data.isLost === isLost).map(data => <Markers data={data} />)}
-  </MapContainer>
+      <Fragment>
+        <button onClick={handleClick}>Show {isLost ? "Found Items" : "Lost Items"}</button>
+        <MapContainer center={initialPosition} zoom={13} scrollWheelZoom={true}>
+          <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <AddMarker/>
+          {markerData.filter(data => data.isLost === isLost).map(data => <Markers data={data} />)}
+        </MapContainer>
+      </Fragment>
   );
 }
 

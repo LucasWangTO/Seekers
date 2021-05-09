@@ -9,13 +9,13 @@ const Markers = (props) => {
                     {props.data.isLost ? "Lost Item" : "Found Item"}
                 </h1>
                 <h3>
-                    {props.data.name}
+                    Name: {props.data.name}
                 </h3>
                 <h3>
-                    {props.data.desc}
+                    Description: {props.data.desc}
                 </h3>
                 <h3>
-                    {props.data.contact}
+                    Contact Info: {props.data.contact}
                 </h3>
             </Popup>
         </Marker>

@@ -6,7 +6,7 @@ const Table = () => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('/.netlify/functions/...')
+        fetch('/.netlify/functions/getPosts')
         .then(response => response.json())
         .then(data => 
             setData(data.data.slice().map(item => {

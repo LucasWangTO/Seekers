@@ -6,11 +6,14 @@ const Header = () => {
     return (
         <nav>
             <ul>
-                <li>
+                <li style={{float: "left"}} >
                     <Link to="/">Seekers</Link>
                 </li>
-                <li style={{float: "right"}}>
+                <li>
                     <Link to="/listing">Create Listing</Link>
+                </li>
+                <li>
+                    <Link to="/posts">Posts</Link>
                 </li>
             </ul>
         </nav>

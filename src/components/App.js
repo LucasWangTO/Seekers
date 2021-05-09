@@ -3,17 +3,19 @@ import {
     Switch,
     Route
 } from "react-router-dom";
-import Header from './Header'
 import Listing from './Listing'
+import Posts from './Posts'
 import MapView from './MapView'
 
 const App = () => {
     return (
         <div>
-            <Header />
             <Switch>
                 <Route path="/listing">
                     <Listing />
+                </Route>
+                <Route path="/posts">
+                    <Posts />
                 </Route>
                 <Route path="/">
                     <MapView />

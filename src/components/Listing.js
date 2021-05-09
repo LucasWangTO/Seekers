@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import Header from './Header'
+import './Listing.css'
 
 const emptyDetails = {
     isLost: false,
@@ -74,23 +76,24 @@ const Listing = (props) => {
 
     return (
         <div>
+            <Header />
             <form onSubmit={handleSubmit} >
                 <fieldset>
                     <legend>Create a new Listing:</legend>
-                    <input type="radio" id="lost" name="typePost" value="lost" onChange={handleRadio} required />
+                    <input className="inputBox" type="radio" id="lost" name="typePost" value="lost" onChange={handleRadio} required />
                     <label>Lost Item</label>
-                    <input type="radio" id="found" name="typePost" value="found" onChange={handleRadio} />
+                    <input className="inputBox foundItem" type="radio" id="found" name="typePost" value="found" onChange={handleRadio} />
                     <label>Found Item</label><br />
                     <label for="name">Name:</label><br />
-                    <input type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required /><br />
+                    <input className="inputBox" type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required /><br />
                     <label for="Latitude">Latitude of item:</label><br />
-                    <input type="number" id="Latitude" name="Latitude" step="any" defaultValue={location.state ? location.state.lat : ""} ref={latRef} required /><br />
+                    <input className="inputBox" type="number" id="Latitude" name="Latitude" step="any" defaultValue={location.state ? location.state.lat : ""} ref={latRef} required /><br />
                     <label for="Longitude">Longitude of item:</label><br />
-                    <input type="number" id="Longitude" name="Longitude" step="any" defaultValue={location.state ? location.state.lng : ""} ref={longRef} required /><br />
+                    <input className="inputBox" type="number" id="Longitude" name="Longitude" step="any" defaultValue={location.state ? location.state.lng : ""} ref={longRef} required /><br />
                     <label for="contact">Contact Information:</label><br />
-                    <textarea id="contact" name="contact" rows="3" cols="50" value={details.contact} onChange={handleContact} required /><br />
+                    <textarea className="inputBox" id="contact" name="contact" rows="3" cols="50" value={details.contact} onChange={handleContact} required /><br />
                     <label for="desc">Description of Item:</label><br />
-                    <textarea id="desc" name="desc" rows="7" cols="50" value={details.desc} onChange={handleDesc} required /><br />
+                    <textarea className="inputBox" id="desc" name="desc" rows="7" cols="50" value={details.desc} onChange={handleDesc} required /><br />
                     <input type="submit" value="Post Listing" />
                 </fieldset>
             </form>

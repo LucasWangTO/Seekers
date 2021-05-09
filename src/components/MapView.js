@@ -1,7 +1,8 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import { Link } from 'react-router-dom';
 import Markers from './Markers'
+import Header from './Header'
 import './MapView.css'
 
 const initialPosition = [43.653225, -79.383186];
@@ -50,17 +51,18 @@ const MapView = () => {
   }
 
     return (
-      <Fragment>
-        <button onClick={handleClick}>Show {isLost ? "Found Items" : "Lost Items"}</button>
+      <div className="boundary">
+        <Header />
+        <button className="toggle" onClick={handleClick}>Show {isLost ? "Found Items" : "Lost Items"}</button>
         <MapContainer center={initialPosition} zoom={13} scrollWheelZoom={true}>
           <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <AddMarker/>
-          {markerData.filter(data => data.isLost === isLost).map(data => <Markers data={data} />)}
+          {markerData.filter(data => data.isLost === isLost).map((data, index) => <Markers key={index} data={data} />)}
         </MapContainer>
-      </Fragment>
+      </div>
   );
 }
 

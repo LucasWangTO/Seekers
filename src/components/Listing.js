@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+
+const emptyDetails = {
+    isLost: false,
+    name: "",
+    contact: "",
+    desc: ""
+}
 
 const Listing = () => {
-    const [details, setDetails] = useState({
-        isLost: false,
-        name: "",
-        address: "",
-        contact: "",
-        desc: ""
-    });
+    const [details, setDetails] = useState(emptyDetails);
+    const latRef = useRef();
+    const longRef = useRef();
 
     const handleRadio = (event) => {
         setDetails({
@@ -37,8 +40,32 @@ const Listing = () => {
         })
     }
 
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
+
+        let data = {
+            ...details,
+            location: [parseInt(latRef.current.value), parseInt(longRef.current.value)]
+        }
+
+        try {
+            await fetch('http://localhost:9000/sendPost', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            })
+
+            alert("Successfully Created Listing!");
+
+            setDetails(emptyDetails);
+            latRef.current.value = "";
+            longRef.current.value = "";
+
+        } catch (err) {
+            console.log(err);
+            alert("Error creating listing!");
+        }
+
     }
 
     return (
@@ -52,6 +79,10 @@ const Listing = () => {
                     <label>Found Item</label><br />
                     <label for="name">Name:</label><br />
                     <input type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required /><br />
+                    <label for="Latitude">Latitude of item:</label><br />
+                    <input type="number" id="Latitude" name="Latitude" step="any" ref={latRef} required /><br />
+                    <label for="Longitude">Longitude of item:</label><br />
+                    <input type="number" id="Longitude" name="Longitude" step="any" ref={longRef} required /><br />
                     <label for="contact">Contact Information:</label><br />
                     <textarea id="contact" name="contact" rows="3" cols="50" value={details.contact} onChange={handleContact} required /><br />
                     <label for="desc">Description of Item:</label><br />

@@ -5,8 +5,8 @@ import './Header.css'
 
 
 const Header = () => {
-    const { userInfo, signUpPageInfo} = useContext(UserContext);
-    const { user, setUser } = userInfo;
+    const setUser = useContext(UserContext).userInfo.setUser;
+
     const userLogout = () => {
         setUser(null);
     }

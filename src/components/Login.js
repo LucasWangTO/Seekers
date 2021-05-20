@@ -25,11 +25,10 @@ const Login = () => {
 
         try{
             console.log("sending this data: ", JSON.stringify(data));
-            const response = await fetch('/.netlify/functions/authUserSignIn', {
+            await fetch('http://localhost:9000/authUserSignIn', {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
-            const result = await response.json()
             alert("Login Successful!");
             setUser(creds.email);
             setOnSignUpPage(false);
@@ -82,12 +81,12 @@ const Login = () => {
             return (
                 <div className="login-box">
                     <div id="login-button" onClick={loginExpand}>
-                        <img className="seekers-logo" src="http://resources.css.edu/careerservices/images/icons/icon_jobseekers.png"></img>        
+                        <img className="seekers-logo" src="http://resources.css.edu/careerservices/images/icons/icon_jobseekers.png" alt=""></img>        
                     </div>      
                     <div id="container">
                         <h1>Start Seeking</h1>
                         <span className="close-button" onClick={loginClose}>
-                            <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png"></img>
+                            <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png" alt=""></img>
                         </span>
 
                         <form onSubmit={handleSubmit}>

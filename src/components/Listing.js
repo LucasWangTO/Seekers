@@ -12,8 +12,7 @@ const emptyDetails = {
 }
 
 const Listing = (props) => {
-    const { userInfo, signUpPageInfo} = useContext(UserContext);
-    const { user, setUser } = userInfo;
+    const user = useContext(UserContext).userInfo.user;
     const [details, setDetails] = useState(emptyDetails);
     const latRef = useRef();
     const longRef = useRef();
@@ -52,7 +51,7 @@ const Listing = (props) => {
 
         try {
             console.log(JSON.stringify(data));
-            await fetch('/.netlify/functions/sendPost', {
+            await fetch('http://localhost:9000/sendPost', {
                 method: 'POST',
                 body: JSON.stringify(data),
             })

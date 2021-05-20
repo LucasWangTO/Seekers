@@ -10,12 +10,12 @@ const emptyCreds = {
     password: ""
 }
 
-const Login = () => {
+const SignUp = () => {
     let history = useHistory();
     const [creds, setCreds] = useState(emptyCreds);
     const { userInfo, signUpPageInfo} = useContext(UserContext);
-    const { user, setUser } = userInfo;
-    const { onSignUpPage, setOnSignUpPage } = signUpPageInfo;
+    const setUser = userInfo.setUser;
+    const setOnSignUpPage = signUpPageInfo.setOnSignUpPage;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +25,7 @@ const Login = () => {
 
         try{
             console.log("sending this data: ", JSON.stringify(data));
-            const response = await fetch('/.netlify/functions/authUserSignUp', {
+            const response = await fetch('http://localhost:9000/authUserSignUp', {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
@@ -68,7 +68,7 @@ const Login = () => {
             gsap.to(container, {scale: 1, duration: .4, ease: "sine.inOut"});
         })
     }
-
+    
     const loginClose = () => {
         let button = $("#login-button");
         let container = $("#container");
@@ -80,14 +80,14 @@ const Login = () => {
     }
 
     return (
-        <div className="login-box">   
-                    <div id="login-button" onClick={loginExpand}>
-                        <img className="seekers-logo" src="http://resources.css.edu/careerservices/images/icons/icon_jobseekers.png"></img>        
-                    </div>  
+        <div className="login-box">
+            <div id="login-button" onClick={loginExpand}>
+                        <img className="seekers-logo" src="http://resources.css.edu/careerservices/images/icons/icon_jobseekers.png" alt=""></img>        
+                    </div>
                     <div id="container">
                         <h1>Start Seeking</h1>
                         <span className="close-button" onClick={loginClose}>
-                            <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png"></img>
+                            <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png" alt=""></img>
                         </span>
 
                         <form onSubmit={handleSubmit}>
@@ -101,4 +101,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default SignUp

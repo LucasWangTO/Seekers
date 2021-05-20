@@ -1,0 +1,26 @@
+.switch {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    align-self: center;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    margin: 20px;
+    padding: 0.5em 0.5em;
+    font-family: 'Montserrat', sans-serif;
+    border-color: rgb(107, 107, 173);
+    box-shadow: 0 0 4px 4px rgb(116, 116, 170) inset, 0 0 0 0 rgb(116, 116, 170);
+}
+
+body {
+    color: white;    
+}
+
+.table {    
+    margin: auto;
+}
+
+.p {
+    text-indent: 100px;
+}

@@ -13,12 +13,12 @@ const headers = {
 exports.handler = async (event, context, callback) => {
 
     const data = JSON.parse(event.body)
-
+    console.log("post received in database with data: ", data);
     try {
         const response = await serverClient.query(
             q.Create(
                 q.Collection('posts'),
-                { data: data },
+                { data: data }
             )
         )
         return {
@@ -28,10 +28,9 @@ exports.handler = async (event, context, callback) => {
         }
     
     } catch (err) {
-        console.log(error)
         return {
             statusCode: 400,
-            body: JSON.stringify(error)
+            body: JSON.stringify(err)
         }
     }
 }

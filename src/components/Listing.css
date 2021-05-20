@@ -1,27 +1,48 @@
 .inputBox {
+  background-color: black;
   padding: 10px;
   border: 0;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-style: solid;
   border-color: rgb(59, 58, 58);
   border-radius: 10px;
-  border-width: thin medium;
   margin-bottom: 1.2rem;
+  color: white;
 }
 
 .inputBox:focus {
-  background-color: #d3f1ff;
+  background-color: black;
 }
 
-.foundItem {
-  margin-left: 2rem;
+
+.radioBox {
+  width: 20px;
+  display: inline-block;
 }
 
-legend {
-  margin-top: 1rem;
+.radioLabel {
+  margin-right: 50px;
 }
 
 .inputButton {
   padding: 5px 10px;
   cursor: pointer;
+  width: 150px;
+  background-color: rgb(36, 35, 35);
+}
+
+.inputButton:hover {
+  background-color: black;
+}
+
+.formContainer {  
+  color:white;
+  width: 750px;
+  margin: auto;
+}
+
+#desc {
+  width: 600px;
+  background-color: black;
+  color: white;
 }

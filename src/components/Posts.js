@@ -8,8 +8,7 @@ import './Posts.css'
 const Table = () => {
     const [data, setData] = useState([]) //columns of table
     const [onlyMyPosts, setOnlyMyPosts] = useState(false); //togglebutton
-    const { userInfo, signUpPageInfo} = useContext(UserContext);
-    const { user, setUser } = userInfo;
+    const user = useContext(UserContext).userInfo.user;
 
     const creds = {
       email: user
@@ -20,7 +19,7 @@ const Table = () => {
     }
 
     useEffect(() => {
-        onlyMyPosts ? fetch('/.netlify/functions/getMyPosts', {
+        onlyMyPosts ? fetch('http://localhost:9000/getMyPosts', {
           method: 'POST', 
           body: JSON.stringify(creds)
         })
@@ -32,7 +31,7 @@ const Table = () => {
               temp.isLost = temp.isLost ? "Lost":"Found";
               return temp;
             }))) :
-        fetch('/.netlify/functions/getPosts')
+        fetch('http://localhost:9000/getPosts')
         .then(response => response.json())
         .then(data => 
             setData(data.data.slice().map(item => {
@@ -41,6 +40,7 @@ const Table = () => {
               temp.isLost = temp.isLost ? "Lost":"Found";
               return temp;
             })))
+      // eslint-disable-next-line
     }, [onlyMyPosts])
 
       const columns = React.useMemo(
@@ -85,7 +85,7 @@ const Table = () => {
        <div>
         <Header />
         <button class="switch" onClick={toggleButtonState}>{buttonStateText}</button>        
-          {data.length === 0 && <h2>You have no entries</h2> || 
+          {(data.length === 0 && <h2>You have no entries</h2>) || 
             <table className="table" {...getTableProps()}>
             <thead>
               {// Loop over the header rows

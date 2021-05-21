@@ -19,7 +19,7 @@ const Table = () => {
     }
 
     useEffect(() => {
-        onlyMyPosts ? fetch('/.netlify/functions/getMyPosts', {
+        onlyMyPosts ? fetch('http://localhost:9000/getMyPosts', {
           method: 'POST', 
           body: JSON.stringify(creds)
         })
@@ -31,7 +31,7 @@ const Table = () => {
               temp.isLost = temp.isLost ? "Lost":"Found";
               return temp;
             }))) :
-        fetch('/.netlify/functions/getPosts')
+        fetch('http://localhost:9000/getPosts')
         .then(response => response.json())
         .then(data => 
             setData(data.data.slice().map(item => {

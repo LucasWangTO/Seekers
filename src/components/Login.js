@@ -1,42 +1,123 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./Contexts";
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Login.css'
 import { gsap } from "gsap";
 import $ from "jquery";
 
-const emptyCreds = {
-    email: "",
-    password: ""
-}
+
 
 const Login = () => {
+    const emptyCreds = {
+        email: "",
+        password: "",
+        confirmed: false,
+        token: ""
+    }
+
     let history = useHistory();
     const [creds, setCreds] = useState(emptyCreds);
-    const { userInfo, signUpPageInfo} = useContext(UserContext);
+    const { userInfo, clickHeader } = useContext(UserContext);
     const { user, setUser } = userInfo;
-    const { onSignUpPage, setOnSignUpPage } = signUpPageInfo;
-
+    const [currentPage, setCurrentPage] = useState("signUp");
+    const { clickedLogout, setClickedLogout } =  clickHeader;
+    
+    useEffect(() => {
+        let linkText = document.getElementById("link");
+        if (!currentPage.localeCompare("signIn") && linkText) {
+            console.log("we are on page: ", currentPage); 
+            linkText.innerHTML = "New? Click here to Sign Up";
+        } else if (!currentPage.localeCompare("signUp") && linkText) {
+            console.log("we are on page: ", currentPage); 
+            linkText.innerHTML = "Have an account? Sign In";
+        }
+    }, [currentPage])
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("The button that was pressed is: ", e.target);
+        if (!currentPage.localeCompare("signUp")) {
+            console.log("submitted on page signup: ", currentPage);
+                try{
+                    const userExistenceResponse = await fetch("/.netlify/functions/checkUserExist", {
+                        method: 'POST',
+                        body: JSON.stringify(creds)
+                    });
+                    const userExistenceData = await userExistenceResponse.json();
+                    console.log(userExistenceData);
+                    if (userExistenceData.data.length !== 0) {
+                        alert("Account already exists!");
+                        return;
+                    }   
+                    
+                    console.log("sending this data: ", JSON.stringify(creds));
+                    
+                    console.log("fetching here: ", "/.netlify/functions/authUserSignUp");
+                    await fetch("/.netlify/functions/authUserSignUp", {
+                        method: 'POST',
+                        body: JSON.stringify(creds)
+                    });
+                    alert("Confirmation email sent!");
 
-        let data = {...creds}
-        console.log("form submitted. your email and password are: ", creds);
+                    setCurrentPage("signConfirm");
+                    
+                } catch(err) {
+                    console.log(err);
+                    alert("Error creating account!");
+                }
+        } else if (!currentPage.localeCompare("signIn")){
+            try{
+                console.log("submitted on page: signin", currentPage);
+                console.log("sending this data: ", JSON.stringify(creds));
 
-        try{
-            console.log("sending this data: ", JSON.stringify(data));
-            await fetch('http://localhost:9000/authUserSignIn', {
+                console.log("fetching here: ", "/.netlify/functions/authUserSignIn");
+                const response = await fetch("/.netlify/functions/authUserSignIn", {
+                    method: 'POST',
+                    body: JSON.stringify(creds)
+                });
+                const data = await response.json();
+                console.log("Status of this account is:", data.data[0].data.confirmed);
+                if (!data.data[0].data.confirmed) {
+                    alert("Please confirm your account to proceed. Sending access code.");
+                    await fetch("/.netlify/functions/resendCode", {
+                        method: 'POST',
+                        body: JSON.stringify(creds)
+                    });                    
+                    setCurrentPage("signConfirm");
+                    return;
+                }
+                
+                alert("Login Successful!");
+                
+                setUser(creds.email);
+                history.push('/map');
+            } catch(err) {
+                console.log(err);
+                alert("Invalid Credentials!");
+            }
+        } else if (!currentPage.localeCompare("signConfirm")) {
+            const userInputCode = document.getElementById("inputCode").value;
+            console.log("in the front end right now, this is code entered by user: ", userInputCode);
+            const req = {
+                email: creds.email,
+                token: userInputCode
+            }
+            const response = await fetch("/.netlify/functions/confirmAccess", {
                 method: 'POST',
-                body: JSON.stringify(data)
+                body: JSON.stringify(req),
             });
-            alert("Login Successful!");
-            setUser(creds.email);
-            setOnSignUpPage(false);
-            history.push('/map');
-        } catch(err) {
-            console.log(err);
-            alert("Login Unsuccessful!");
-        }
+            const data = await response.json();
+            console.log("back in front end, data received: ", data);
+            if (data.data) {
+                alert("Code accepted! Welcome to Seekers.");
+                setCurrentPage("/signIn");
+                setUser(creds.email);
+                console.log("current user", userInfo);
+                history.push("/map");
+            } else {
+                alert("Invalid Code! Please try again.");
+            }
+        }      
     }
 
     const handleChangeEmail = (e) => {        
@@ -53,11 +134,18 @@ const Login = () => {
         });
     }    
 
-    const recordSignUp = () => {
-        setOnSignUpPage(true);
+    const clickLink = () => {
+        if (!currentPage.localeCompare("signIn")) {               
+            setCurrentPage("signUp");
+        } else if (!currentPage.localeCompare("signUp")) {               
+            setCurrentPage("signIn");
+        }       
     }
 
     const loginExpand = () => {
+        setClickedLogout(false);
+        setCurrentPage("signUp");
+        setCreds(emptyCreds);
         let button = $("#login-button");
         let container = $("#container");
         button.fadeOut("slow", () => {
@@ -77,7 +165,45 @@ const Login = () => {
         })
     }
 
-        if (user === null && !onSignUpPage) {
+    const resendCode = async () => {
+        if (!creds.email.localeCompare("")) {
+            alert("Please fill out the e-mail field before requesting a re-send");
+            return;
+        }
+        try{
+            const userExistenceResponse = await fetch("/.netlify/functions/checkUserExist", {
+                method: 'POST',
+                body: JSON.stringify(creds)
+            });
+            const userExistenceData = await userExistenceResponse.json();
+            console.log("userexistencedata: ", userExistenceData.data[0]);
+            
+            if (userExistenceData.data === 0) {
+                alert("This account does not exist!");
+                return;
+            } else if (userExistenceData.data[0].data.confirmed === true) {
+                alert("This account has already been confirmed");
+                return;
+            }
+
+            await fetch("/.netlify/functions/resendCode", {
+                method: 'POST',
+                body: JSON.stringify(creds)
+            });
+            setCurrentPage("signConfirm");
+        } catch(err) {
+            alert("Error re-sending code!");
+        }
+        
+    }
+
+    const clickBack = () => {
+        setCurrentPage("signIn");
+        setUser(null);
+    }
+
+
+        if ((user === null && (!currentPage.localeCompare("signIn") || !currentPage.localeCompare("signUp"))) || clickedLogout === true) {       
             return (
                 <div className="login-box">
                     <div id="login-button" onClick={loginExpand}>
@@ -90,12 +216,24 @@ const Login = () => {
                         </span>
 
                         <form onSubmit={handleSubmit}>
-                            <input type="email" name="email" required="" placeholder="E-mail" onChange={handleChangeEmail}/>
-                            <input type="password" name="pass" required="" placeholder="Password" onChange={handleChangePsw}/>
-                            <input class="submitButton" type="submit" value="Sign In"/>
-                            <Link onClick={recordSignUp} to="/signup" className='link'>New? Click here to Sign Up</Link>
+                            <input className="generalInput" id="userEmailInput" type="email" name="email" required placeholder="E-mail" onChange={handleChangeEmail}/>
+                            <input className="generalInput" type="password" name="pass" required placeholder="Password" onChange={handleChangePsw}/>
+                            <input className="generalInput" id="submitButton" type="submit" value={currentPage.localeCompare("signUp") === 0 ? "Sign Up" : "Sign In"}/>
+                            <input className="generalInput" id="submitButtonCode" type="button" onClick={resendCode} value="Re-send access code"/>
+                            <p onClick={clickLink} id='link'>Have an account? Sign In</p>
                         </form>
                     </div>
+                </div>
+            )
+        } else if (!currentPage.localeCompare("signConfirm")) {
+            return (
+                <div id="accessCodeContainer">
+                    <h1>Enter your access code</h1>
+                    <form onSubmit={handleSubmit}>                        
+                        <input id="inputCode" type="text" placeHolder="Code"/>                        
+                        <input className="generalInput" id="submitAccessPage" type="submit"/>
+                        <input className="generalInput" id="backButton" type="button" value="Exit" onClick={clickBack}></input>
+                    </form>
                 </div>
             )
         } else {

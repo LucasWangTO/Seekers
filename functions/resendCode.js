@@ -2,6 +2,7 @@ import faunadb, { query as q, TimeAdd } from "faunadb"
 require('dotenv').config();
 const nodemailer = require("nodemailer");
 
+const adminClient = new faunadb.Client({ secret: process.env.ADMIN_CLIENT_KEY });
 const serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
 const emailUsername = process.env.EMAIL_USER;
 const emailPass = process.env.EMAIL_PSW;
@@ -59,7 +60,26 @@ exports.handler = async (event, context, callback) => {
 
                 console.log(userPassword, userEmail, "this is the user token: ", buf.toString('hex'), userConfirmed);
 
-                const message = {
+                const searchIDResponse = await serverClient.query(
+                    q.Map(
+                        q.Paginate(
+                          q.Match(q.Index("users_by_email"), data.email)
+                        ),
+                        q.Lambda(
+                          "person",
+                          q.Get(q.Var("person"))
+                        )
+                      )
+                )
+                const refID = searchIDResponse.data[0].ref.id;
+
+                const replaceTokenResponse = await serverClient.query(
+                    q.Update(
+                      q.Ref(q.Collection('Auth_Posts'), refID.toString()),
+                      { data: { token: buf.toString('hex')} },
+                    )
+                  )
+                  const message = {
                     from: emailUsername,
                     to: userEmail,
                     subject: "Your Seekers access code",
@@ -70,17 +90,6 @@ exports.handler = async (event, context, callback) => {
                     console.log("err", err);
                     console.log("info", info); 
                 })
-
-                response = await serverClient.query(
-                    q.Create(q.Collection("Auth_Posts"), {
-                        credentials: { password: userPassword },
-                        data: {
-                        email: userEmail,
-                        token: buf.toString('hex'),
-                        confirmed: userConfirmed,
-                        }
-                    })
-                )
             })    
                 
             console.log("this is the response", response); //response is null

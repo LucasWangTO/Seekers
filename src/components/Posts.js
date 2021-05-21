@@ -19,7 +19,7 @@ const Table = () => {
     }
 
     useEffect(() => {
-        onlyMyPosts ? fetch('http://localhost:9000/getMyPosts', {
+        onlyMyPosts ? fetch('/.netlify/functions/getMyPosts', {
           method: 'POST', 
           body: JSON.stringify(creds)
         })
@@ -31,7 +31,7 @@ const Table = () => {
               temp.isLost = temp.isLost ? "Lost":"Found";
               return temp;
             }))) :
-        fetch('http://localhost:9000/getPosts')
+        fetch('/.netlify/functions/getPosts')
         .then(response => response.json())
         .then(data => 
             setData(data.data.slice().map(item => {
@@ -84,7 +84,7 @@ const Table = () => {
      return (
        <div>
         <Header />
-        <button class="switch" onClick={toggleButtonState}>{buttonStateText}</button>        
+        <button className="switch" onClick={toggleButtonState}>{buttonStateText}</button>        
           {(data.length === 0 && <h2>You have no entries</h2>) || 
             <table className="table" {...getTableProps()}>
             <thead>

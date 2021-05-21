@@ -8,6 +8,7 @@ ul {
 
 li {
   float: right;
+  border-right: 0.5px solid white;
 }
 
 li a {
@@ -19,8 +20,14 @@ li a {
   text-decoration: none;
 }
 
-li:last-child {
-  border-right: 1px solid #bbb;
-  border-left: 1px solid #bbb;
+li:hover {
+  background-color: black;
 }
+
+#posts {
+  border-left: 0.5px solid white;
+}
+
+
+
 

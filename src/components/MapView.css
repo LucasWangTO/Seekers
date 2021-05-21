@@ -3,8 +3,7 @@
   height: 85vh;
 }
 
-.toggle {
-  background-color: #eb0e0e; /* Red */
+#toggleButtonLost {
   border: none;
   color: white;
   padding: 15px 32px;
@@ -13,11 +12,27 @@
   display: inline-block;
   font-size: 1.5rem;
   width: 100%;
+  background-color: red;
 }
 
-.toggle:hover {
-  background-color: gray;
+#toggleButtonLost:hover {
+  background-color: black;
+}
+
+#toggleButtonFound {
   color: white;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5rem;
+  width: 100%;
+  background-color: green;
+}
+
+#toggleButtonFound:hover {
+  background-color: black;
 }
 
 .createFormButton {

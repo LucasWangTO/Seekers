@@ -51,7 +51,7 @@ const Listing = (props) => {
 
         try {
             console.log(JSON.stringify(data));
-            await fetch('http://localhost:9000/sendPost', {
+            await fetch('/.netlify/functions/sendPost', {
                 method: 'POST',
                 body: JSON.stringify(data),
             })
@@ -75,13 +75,14 @@ const Listing = (props) => {
             <div className="formContainer">
                 <form classname="formContainer" onSubmit={handleSubmit} >
                     <fieldset>
-                        <legend>Create a new Listing:</legend>
+                        <legend>Create a new Listing:</legend>                        
                         <input className="radioBox" type="radio" id="lost" name="typePost" value="lost" onChange={handleRadio} required />
                         <label className="radioLabel">Lost Item</label>
                         <input className="radioBox" type="radio" id="found" name="typePost" value="found" onChange={handleRadio} />
                         <label className="radioLabel">Found Item</label><br />
                         <label for="name">Name:</label><br />
-                        <input className="inputBox" type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required /><br />
+                        <input className="inputBox" type="text" id="name" name="name" placeholder="Enter your name" value={details.name} onChange={handleName} required />
+                        <text>(Hint: You can also click anywhere on the map to place a marker. Click on the marker to create a listing at that location)</text><br/><br/>
                         <label for="Latitude">Latitude of item:</label><br />
                         <input className="inputBox" type="number" id="Latitude" name="Latitude" step="any" defaultValue={location.state ? location.state.lat : ""} ref={latRef} required /><br />
                         <label for="Longitude">Longitude of item:</label><br />

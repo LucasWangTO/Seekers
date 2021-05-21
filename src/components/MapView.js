@@ -28,7 +28,7 @@ const AddMarker = () => {
       <Popup>        
         <Link to={ newTo }>
           <button type="button" className="createFormButton">
-            Create Form
+            Create Listing
           </button>
         </Link>
       </Popup>
@@ -41,25 +41,20 @@ const MapView = () => {
   const [isLost, setIsLost] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:9000/getPosts')
+    fetch('/.netlify/functions/getPosts')
     .then(response => response.json())
     .then(data => setMarkerData(data.data))
   }, [])
 
   const handleClick = () => {
     setIsLost(!isLost);
-    
-    if(isLost) {
-      document.getElementById("toggleButton").style.background='#eb0e0e';
-    } else {
-      document.getElementById("toggleButton").style.background='#4caf50';
-    }
   }
 
     return (
       <div className="boundary">
         <Header />
-        <button className="toggle" id="toggleButton" onClick={handleClick}>Show {isLost ? "Found Items" : "Lost Items"}</button>
+        {(isLost && <button id="toggleButtonLost" onClick={handleClick}>Click to show Lost Items</button>) ||
+         (!isLost && <button id="toggleButtonFound" onClick={handleClick}>Click to show Found Items</button>)}
         <MapContainer center={initialPosition} zoom={13} scrollWheelZoom={true}>
           <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

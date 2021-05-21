@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import {
     Switch,
-    Route
+    Route,
+    useHistory
 } from "react-router-dom";
 import Listing from './Listing'
 import Posts from './Posts'
 import MapView from './MapView'
 import Login from './Login'
-import SignUp from './SignUp'
 
 import { UserContext } from './Contexts'
 
@@ -35,11 +35,17 @@ const useSessionStorage = (key, initialValue) => {
 
 const App = () => {
     const [user, setUser] = useSessionStorage("user", null);
-    const [onSignUpPage, setOnSignUpPage] = useSessionStorage("signupPage", false);
+    const [clickedLogout, setClickedLogout] = useSessionStorage("clickedLogout", false);
+    let history = useHistory();
+
+    window.addEventListener("popstate", () => { //prevents users from going "back" and illegally accessing pages
+        history.go(1);
+    })
+
     return (
         <div>
             <Switch>            
-                    <UserContext.Provider value={{ userInfo: {user, setUser}, signUpPageInfo: {onSignUpPage, setOnSignUpPage} }}>
+                    <UserContext.Provider value={{ userInfo: {user, setUser}, clickHeader: {clickedLogout, setClickedLogout} }}>
                         <Route path="/listing">
                             <Listing />
                         </Route>                         
@@ -48,9 +54,6 @@ const App = () => {
                         </Route>    
                         <Route path="/map">
                             <MapView />
-                        </Route> 
-                        <Route path="/signup">
-                            <SignUp />
                         </Route>
                         <Route path="/">
                             <Login />

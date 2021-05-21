@@ -6,9 +6,10 @@ import './Header.css'
 
 const Header = () => {
     const setUser = useContext(UserContext).userInfo.setUser;
-
+    const setClickedLogout = useContext(UserContext).clickHeader.setClickedLogout;
     const userLogout = () => {
         setUser(null);
+        setClickedLogout(true);
     }
 
     return (
@@ -18,12 +19,12 @@ const Header = () => {
                     <Link to="/map">Seekers</Link>
                 </li>
                 <li>
-                    <Link to="/login" onClick={userLogout}>Logout</Link>
+                    <Link to="/" onClick={userLogout}>Logout</Link>
                 </li>
                 <li>
                     <Link to="/listing">Create Listing</Link>
                 </li>
-                <li>
+                <li id="posts">
                     <Link to="/posts">Posts</Link>
                 </li>
                 

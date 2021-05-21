@@ -30,6 +30,7 @@ exports.handler = async (event, context, callback) => {
         try{
             const { email, password } = JSON.parse(event.body);
 
+            //Try to login
             const response = await serverClient.query(
                 q.Login(
                     q.Match(q.Index("users_by_email"), email),
@@ -38,14 +39,28 @@ exports.handler = async (event, context, callback) => {
                     }
                 )
             )
-            console.log("response from fauna query is: ", response);
+            console.log("response from fauna query login attempt: ", response);
+
+            //If account exists(no error was caught), get the status of confirmed email(we need this to decide whether to let the user sign in)
+            const confirmEmailResponse = await serverClient.query(
+                q.Map(
+                    q.Paginate(
+                      q.Match(q.Index("users_by_email"), email)
+                    ),
+                    q.Lambda(
+                      "person",
+                      q.Get(q.Var("person"))
+                    )
+                )
+            )
+            console.log("response from fauna query search for user attempt: ", confirmEmailResponse);
             return {
                 statusCode: 200,
-                body: JSON.stringify(response),
+                body: JSON.stringify(confirmEmailResponse),
                 headers
             }
         } catch (err) {
-            console.log("Error in catch of authUser", err)
+            console.log("Error in catch of authUser-signin", err)
             return {
                 statusCode: 400,
                 body: JSON.stringify(err)

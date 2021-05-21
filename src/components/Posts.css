@@ -13,6 +13,10 @@
     box-shadow: 0 0 4px 4px rgb(116, 116, 170) inset, 0 0 0 0 rgb(116, 116, 170);
 }
 
+.switch:hover {
+    filter: brightness(200%);
+}
+
 body {
     color: white;    
 }

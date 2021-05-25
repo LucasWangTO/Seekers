@@ -3,8 +3,8 @@ require('dotenv').config();
 const nodemailer = require("nodemailer");
 
 const serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
-const emailUsername = 'teamseekers2021@gmail.com';
-const emailPass = 'MV4_*\^Q8T^34jUf';
+const emailUsername = process.env.EMAIL_USER;
+const emailPass = process.env.EMAIL_PSW;
 
 const headers = {
     'Access-Control-Allow-Origin': '*',

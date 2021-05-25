@@ -43,7 +43,7 @@ exports.handler = async (event, context, callback) => {
                     rejectUnauthorized: false
                 }
             });            
-
+            */
             const data = JSON.parse(event.body);
             console.log("this is data received on request from login.js: ", data);
             const userEmail = data.email;
@@ -53,7 +53,7 @@ exports.handler = async (event, context, callback) => {
             const {
                 randomBytes,
             } = await import('crypto');
-            */
+            
             randomBytes(3, async(err, buf) => {
                 if (err) throw err;
 

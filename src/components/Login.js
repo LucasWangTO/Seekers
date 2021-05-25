@@ -78,7 +78,7 @@ const Login = () => {
                 const data = await response.json();
                 console.log("Status of this account is:", data.data[0].data.confirmed);
                 if (!data.data[0].data.confirmed) {
-                    alert("Please confirm your account to proceed. Sending access code.");
+                    alert("Please confirm your account to proceed.Sending access code.");
                     await fetch("/.netlify/functions/resendCode", {
                         method: 'POST',
                         body: JSON.stringify(creds)

@@ -29,7 +29,7 @@ exports.handler = async (event, context, callback) => {
         console.log("entered preflight")
         preflight(callback);
     } else {
-        try{
+        try{/*
             let transporter = nodemailer.createTransport({                
                 host: "smtp-relay.gmail.com",
                 port: 465,
@@ -53,7 +53,7 @@ exports.handler = async (event, context, callback) => {
             const {
                 randomBytes,
             } = await import('crypto');
-
+            */
             randomBytes(3, async(err, buf) => {
                 if (err) throw err;
 
@@ -65,11 +65,11 @@ exports.handler = async (event, context, callback) => {
                     subject: "Your Seekers access code",
                     html: `<p>This is your access code: ${buf.toString('hex')}</p>`
                 };
-                  
+                /*
                 transporter.sendMail(message, (err, info) => {
                     console.log("err", err);
                     console.log("info", info); 
-                })
+                })*/
 
                 response = await serverClient.query(
                     q.Create(q.Collection("Auth_Posts"), {

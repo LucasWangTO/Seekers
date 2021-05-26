@@ -1,10 +1,10 @@
 import faunadb, { query as q, TimeAdd } from "faunadb"
 require('dotenv').config();
-const nodemailer = require("nodemailer");
+//const nodemailer = require("nodemailer");
 
 const serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
-const emailUsername = process.env.EMAIL_USER;
-const emailPass = process.env.EMAIL_PSW;
+//const emailUsername = process.env.EMAIL_USER;
+//const emailPass = process.env.EMAIL_PSW;
 
 const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -29,7 +29,8 @@ exports.handler = async (event, context, callback) => {
         console.log("entered preflight")
         preflight(callback);
     } else {
-        try{/*
+        try{
+            /*
             let transporter = nodemailer.createTransport({                
                 host: "smtp-relay.gmail.com",
                 port: 465,
@@ -42,13 +43,34 @@ exports.handler = async (event, context, callback) => {
                 tls: {
                     rejectUnauthorized: false
                 }
-            });            
-            */
+            });*/            
+            
             const data = JSON.parse(event.body);
             console.log("this is data received on request from login.js: ", data);
-            const userEmail = data.email;
+            const userToken = data.token;
             const userPassword = data.password;
+            const userEmail = data.email;
             const userConfirmed = data.confirmed;
+
+            const response = await serverClient.query(
+                q.Create(q.Collection("Auth_Posts"), {
+                    credentials: { password: userPassword },
+                    data: {
+                    email: userEmail,
+                    token: userToken,
+                    confirmed: userConfirmed,
+                    }
+                })
+            )
+
+            console.log("this is the response", response); //response is null
+            return {
+                statusCode: 200,
+                body: JSON.stringify(response),
+                headers
+            } 
+
+            /*
             let response = "";
             const {
                 randomBytes,
@@ -65,11 +87,11 @@ exports.handler = async (event, context, callback) => {
                     subject: "Your Seekers access code",
                     html: `<p>This is your access code: ${buf.toString('hex')}</p>`
                 };
-                /*
+                
                 transporter.sendMail(message, (err, info) => {
                     console.log("err", err);
                     console.log("info", info); 
-                })*/
+                })
 
                 response = await serverClient.query(
                     q.Create(q.Collection("Auth_Posts"), {
@@ -82,13 +104,8 @@ exports.handler = async (event, context, callback) => {
                     })
                 )
             })    
+            */  
                 
-            console.log("this is the response", response); //response is null
-            return {
-                statusCode: 200,
-                body: JSON.stringify(response),
-                headers
-            }     
         } catch (err) {
             console.log("Error in catch of authUser-signup", err)
             return {

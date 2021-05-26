@@ -30,7 +30,7 @@ exports.handler = async (event, context, callback) => {
         console.log("entered preflight")
         preflight(callback);
     } else {
-        try{
+        try{/*
             let transporter = nodemailer.createTransport({                
                 host: "smtp-relay.gmail.com",
                 port: 465,
@@ -43,13 +43,39 @@ exports.handler = async (event, context, callback) => {
                 tls: {
                     rejectUnauthorized: false
                 }
-            });            
+            });     */       
 
             const data = JSON.parse(event.body);
             console.log("this is data received on request from login.js: ", data);
-            const userEmail = data.email;
-            const userPassword = data.password;
-            const userConfirmed = data.confirmed;
+            const userToken = data.token;
+
+            const searchIDResponse = await serverClient.query(
+                q.Map(
+                    q.Paginate(
+                      q.Match(q.Index("users_by_email"), data.email)
+                    ),
+                    q.Lambda(
+                      "person",
+                      q.Get(q.Var("person"))
+                    )
+                  )
+            )
+            const refID = searchIDResponse.data[0].ref.id;
+
+            const replaceTokenResponse = await serverClient.query(
+                q.Update(
+                  q.Ref(q.Collection('Auth_Posts'), refID.toString()),
+                  { data: { token: userToken} },
+                )
+            )
+
+            console.log("this is the response", replaceTokenResponse);
+            return {
+                statusCode: 200,
+                body: JSON.stringify(replaceTokenResponse),
+                headers
+            } 
+            /*
             let response = "";
             const {
                 randomBytes,
@@ -90,14 +116,7 @@ exports.handler = async (event, context, callback) => {
                     console.log("err", err);
                     console.log("info", info); 
                 })
-            })    
-                
-            console.log("this is the response", response); //response is null
-            return {
-                statusCode: 200,
-                body: JSON.stringify(response),
-                headers
-            }     
+            })   */   
         } catch (err) {
             console.log("Error in catch of authUser-signup", err)
             return {

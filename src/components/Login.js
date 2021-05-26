@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import './Login.css'
 import { gsap } from "gsap";
 import $ from "jquery";
-
-
+import emailjs from 'emailjs-com';
+require('dotenv').config({ path: require('find-config')('.env')})
 
 const Login = () => {
     const emptyCreds = {
@@ -21,6 +21,8 @@ const Login = () => {
     const { user, setUser } = userInfo;
     const [currentPage, setCurrentPage] = useState("signUp");
     const { clickedLogout, setClickedLogout } =  clickHeader;
+    const [token, setToken] = useState("");
+    const [resettingToken, setResettingToken] = useState(false);
     
     useEffect(() => {
         let linkText = document.getElementById("link");
@@ -32,6 +34,27 @@ const Login = () => {
             linkText.innerHTML = "Have an account? Sign In";
         }
     }, [currentPage])
+
+    useEffect(async () => {
+        if (token.localeCompare("") != 0) {
+        const SERVICE_ID = process.env.EMAIL_JS_SERIVCE_ID;
+        const TEMPLATE_ID = process.env.EMAIL_JS_TEMPLATE_ID;
+        const USER_ID = process.env.EMAIL_JS_USER_ID;
+        console.log("new creds before db call, ", creds);
+        console.log(SERVICE_ID, TEMPLATE_ID, USER_ID);
+        const url = resettingToken ? "/.netlify/functions/resendCode" : "/.netlify/functions/authUserSignUp";
+        console.log(url, "with data: ", creds);
+        await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(creds)
+        });
+        const templateParams = {
+            user_email: creds.email,
+            access_token: token
+        }
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID);
+    }
+    }, [token])
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,14 +72,23 @@ const Login = () => {
                         alert("Account already exists!");
                         return;
                     }   
-                    
-                    console.log("sending this data: ", JSON.stringify(creds));
-                    
-                    console.log("fetching here: ", "/.netlify/functions/authUserSignUp");
-                    await fetch("/.netlify/functions/authUserSignUp", {
-                        method: 'POST',
-                        body: JSON.stringify(creds)
-                    });
+
+                    const {
+                        randomBytes,
+                    } = await import('crypto');
+        
+                    randomBytes(3, async(err, buf) => {
+                        if (err) throw err;
+                        const code = buf.toString('hex');
+                        console.log("code: ", code);
+                        setCreds({
+                            ...creds,
+                            token: code
+                        })
+                        setResettingToken(false);
+                        setToken(code);                        
+                    })                 
+
                     alert("Confirmation email sent!");
 
                     setCurrentPage("signConfirm");
@@ -186,10 +218,22 @@ const Login = () => {
                 return;
             }
 
-            await fetch("/.netlify/functions/resendCode", {
-                method: 'POST',
-                body: JSON.stringify(creds)
-            });
+            const {
+                randomBytes,
+            } = await import('crypto');
+
+            randomBytes(3, async(err, buf) => {
+                if (err) throw err;
+                const code = buf.toString('hex');
+                console.log("code: ", code);
+                setCreds({
+                    ...creds,
+                    token: code
+                })
+                setResettingToken(true);
+                setToken(code);
+            })     
+
             setCurrentPage("signConfirm");
         } catch(err) {
             alert("Error re-sending code!");

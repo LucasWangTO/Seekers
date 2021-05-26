@@ -52,7 +52,7 @@ const Login = () => {
             user_email: creds.email,
             access_token: token
         }
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID);
+        emailjs.send("service_wxptry8", "contact_form", templateParams, "user_OLZP6VZZgytfp2F16BS3S");
     }
     }, [token])
     

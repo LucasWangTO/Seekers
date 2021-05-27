@@ -1,8 +1,7 @@
 import faunadb, { query as q } from "faunadb"
 require('dotenv').config();
 
-var adminClient = new faunadb.Client({ secret: process.env.ADMIN_CLIENT_KEY });
-var serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
+const serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
 
 const headers = {
   'Access-Control-Allow-Origin': '*',

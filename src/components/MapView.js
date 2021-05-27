@@ -12,9 +12,7 @@ const AddMarker = () => {
 
   useMapEvents({
     click: (e) => {
-      setPosition(e.latlng); // 👈 add marker
-
-      /* CODE TO ADD NEW PLACE TO STORE (check the source code) */
+      setPosition(e.latlng);
     },
   });
 
@@ -41,7 +39,7 @@ const MapView = () => {
   const [isLost, setIsLost] = useState(false);
 
   useEffect(() => {
-    fetch('/.netlify/functions/getPosts')
+    fetch('http://localhost:9000/getPosts')
     .then(response => response.json())
     .then(data => setMarkerData(data.data))
   }, [])
@@ -53,8 +51,8 @@ const MapView = () => {
     return (
       <div className="boundary">
         <Header />
-        {(isLost && <button id="toggleButtonLost" onClick={handleClick}>Click to show Lost Items</button>) ||
-         (!isLost && <button id="toggleButtonFound" onClick={handleClick}>Click to show Found Items</button>)}
+        {(!isLost && <button id="toggleButtonLost" onClick={handleClick}>Click to show Lost Items</button>) ||
+         (isLost && <button id="toggleButtonFound" onClick={handleClick}>Click to show Found Items</button>)}
         <MapContainer center={initialPosition} zoom={13} scrollWheelZoom={true}>
           <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -116,6 +116,7 @@ input:focus{
 .generalInput {
     border: none;
 }
+
 #submitButton{
     font-family: 'Open Sans Condensed', sans-serif;
     text-align: center;

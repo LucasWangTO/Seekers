@@ -1,8 +1,7 @@
 import faunadb, { query as q } from "faunadb"
 require('dotenv').config();
 
-var adminClient = new faunadb.Client({ secret: process.env.ADMIN_CLIENT_KEY });
-var serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
+const serverClient = new faunadb.Client({ secret: process.env.SERVER_CLIENT_KEY });
 
 const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -12,8 +11,7 @@ const headers = {
 
 exports.handler = async (event, context, callback) => {
 
-    const data = JSON.parse(event.body)
-    console.log("post received in database with data: ", data);
+    const data = JSON.parse(event.body);
     try {
         const response = await serverClient.query(
             q.Create(
@@ -26,7 +24,7 @@ exports.handler = async (event, context, callback) => {
             body: JSON.stringify(response),
             headers
         }
-    
+
     } catch (err) {
         return {
             statusCode: 400,

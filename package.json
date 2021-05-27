@@ -36,7 +36,6 @@
     "build": "npm-run-all --parallel build:**",
     "build:app": "react-scripts build",
     "build:functions": "netlify-lambda build functions",
-    "build:redirects": "echo '/* /index.html  200' | cat >build/_redirects ",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "bootstrap": "node ./scripts/bootstrap-fauna-database.js"

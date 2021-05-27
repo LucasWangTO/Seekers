@@ -1,8 +1,7 @@
 import faunadb, { query as q } from "faunadb"
 require('dotenv').config();
 
-var adminClient = new faunadb.Client({ secret: process.env.ADMIN_CLIENT_KEY });
-var serverClient = new faunadb.Client({ secret:  process.env.SERVER_CLIENT_KEY });
+var serverClient = new faunadb.Client({ secret: process.env.SERVER_CLIENT_KEY });
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -11,33 +10,34 @@ const headers = {
 };
 
 exports.handler = async (event, context, callback) => {
-  console.log("this is the request received for getmyposts: ", event);
   const data = JSON.parse(event.body);
-  console.log('this is the user we are searching by: ', data);
   let toReturn = [];
 
   try {
     let response = await serverClient.query(
-        q.Map(
-            q.Paginate(
-              q.Match(q.Index("search_posts_by_contact"), data.email)
-            ),
-            q.Lambda(
-              "person",
-              q.Get(q.Var("person"))
-            )
-          )
+      q.Map(
+        q.Paginate(
+          q.Match(q.Index("search_posts_by_contact"), data.email)
+        ),
+        q.Lambda(
+          "person",
+          q.Get(q.Var("person"))
+        )
+      )
     )
+    console.log(response);
     for (let i = 0; i < response.data.length; i++) {
-      toReturn.push(response.data[i].data);
+      const combinedData = response.data[i].data;
+      combinedData.id = response.data[i].ref.id;
+      toReturn.push(combinedData);
     }
 
     return {
-        statusCode: 200,
-        body: JSON.stringify({
-          data: toReturn
-        }),
-        headers
+      statusCode: 200,
+      body: JSON.stringify({
+        data: toReturn
+      }),
+      headers
     }
 
   } catch (err) {

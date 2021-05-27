@@ -8,6 +8,7 @@ import Listing from './Listing'
 import Posts from './Posts'
 import MapView from './MapView'
 import Login from './Login'
+import PrivateRoute from './PrivateRoute'
 
 import { UserContext } from './Contexts'
 
@@ -33,7 +34,7 @@ const useSessionStorage = (key, initialValue) => {
     return [storedValue, setValue];
 }
 
-const App = () => {
+const App = () => {    
     const [user, setUser] = useSessionStorage("user", null);
     const [clickedLogout, setClickedLogout] = useSessionStorage("clickedLogout", false);
     let history = useHistory();
@@ -46,15 +47,9 @@ const App = () => {
         <div>
             <Switch>            
                     <UserContext.Provider value={{ userInfo: {user, setUser}, clickHeader: {clickedLogout, setClickedLogout} }}>
-                        <Route path="/listing">
-                            <Listing />
-                        </Route>                         
-                        <Route path="/posts">
-                            <Posts />
-                        </Route>    
-                        <Route path="/map">
-                            <MapView />
-                        </Route>
+                        <PrivateRoute path="/listing" component={Listing}/>                      
+                        <PrivateRoute path="/posts" component={Posts}/>
+                        <PrivateRoute path="/map" component={MapView}/>
                         <Route path="/">
                             <Login />
                         </Route>                                         

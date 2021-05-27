@@ -5,11 +5,11 @@ import './Header.css'
 
 
 const Header = () => {
-    const setUser = useContext(UserContext).userInfo.setUser;
     const setClickedLogout = useContext(UserContext).clickHeader.setClickedLogout;
     const userLogout = () => {
-        setUser(null);
+        delete sessionStorage.user;
         setClickedLogout(true);
+        window.location.reload(); //refresh to prevent a bug that sometimes doesn't display login screen
     }
 
     return (

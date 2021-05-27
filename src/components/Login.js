@@ -36,7 +36,7 @@ const Login = () => {
     useEffect(() => {
         if (token.localeCompare("") !== 0) {
             const { REACT_APP_EMAIL_JS_USER_ID, REACT_APP_EMAIL_JS_SERVICE_ID, REACT_APP_EMAIL_JS_TEMPLATE_ID } = process.env;
-            const url = resettingToken ? "http://localhost:9000/resendCode" : "http://localhost:9000/authUserSignUp";
+            const url = resettingToken ? "/.netlify/functions/resendCode" : "/.netlify/functions/authUserSignUp";
             fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(creds)
@@ -54,7 +54,7 @@ const Login = () => {
         e.preventDefault();
         if (!currentPage.localeCompare("signUp")) {
             try {
-                const userExistenceResponse = await fetch("http://localhost:9000/checkUserExist", {
+                const userExistenceResponse = await fetch("/.netlify/functions/checkUserExist", {
                     method: 'POST',
                     body: JSON.stringify(creds)
                 });
@@ -86,14 +86,14 @@ const Login = () => {
             }
         } else if (!currentPage.localeCompare("signIn")) {
             try {
-                const response = await fetch("http://localhost:9000/authUserSignIn", {
+                const response = await fetch("/.netlify/functions/authUserSignIn", {
                     method: 'POST',
                     body: JSON.stringify(creds)
                 });
                 const data = await response.json();
                 if (!data.data[0].data.confirmed) {
                     alert("Please confirm your account to proceed.Sending access code.");
-                    await fetch("http://localhost:9000/resendCode", {
+                    await fetch("/.netlify/functions/resendCode", {
                         method: 'POST',
                         body: JSON.stringify(creds)
                     });
@@ -127,7 +127,7 @@ const Login = () => {
                 email: creds.email,
                 token: userInputCode
             }
-            const response = await fetch("http://localhost:9000/confirmAccess", {
+            const response = await fetch("/.netlify/functions/confirmAccess", {
                 method: 'POST',
                 body: JSON.stringify(req),
             });
@@ -194,7 +194,7 @@ const Login = () => {
             return;
         }
         try {
-            const userExistenceResponse = await fetch("http://localhost:9000/checkUserExist", {
+            const userExistenceResponse = await fetch("/.netlify/functions/checkUserExist", {
                 method: 'POST',
                 body: JSON.stringify(creds)
             });

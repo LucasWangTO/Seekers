@@ -51,7 +51,7 @@ const Listing = (props) => {
 
         try {
             console.log(JSON.stringify(data));
-            await fetch('http://localhost:9000/sendPost', {
+            await fetch('/.netlify/functions/sendPost', {
                 method: 'POST',
                 body: JSON.stringify(data),
             })

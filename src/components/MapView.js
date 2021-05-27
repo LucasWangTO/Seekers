@@ -39,7 +39,7 @@ const MapView = () => {
   const [isLost, setIsLost] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:9000/getPosts')
+    fetch('/.netlify/functions/getPosts')
     .then(response => response.json())
     .then(data => setMarkerData(data.data))
   }, [])

@@ -34,7 +34,7 @@
     "start:server": "netlify-lambda serve functions",
     "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
     "build": "npm-run-all --parallel build:**",
-    "build:app": "react-scripts build",
+    "build:app": "react-scripts build && echo '/* /index.html 200' | cat >build/_redirects ",
     "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

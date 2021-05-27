@@ -21,7 +21,7 @@ We implemented backend calls to the database using serverless functions (Netlify
 
 ## Challenges
 
-Because we each both wanted to learn the full stack of development, we decided to swap roles (front-end <-> back-end) midway through the project in order to maxmize learning. The downside was that we spent more time catching up with what the other person had coded and understanding the work.
+Because we both wanted to learn the full stack of development, we decided to swap roles (front-end <-> back-end) midway through the project in order to maxmize learning. The downside was that we spent more time catching up with what the other person had coded and understanding the work.
 
 ## Team Members
 

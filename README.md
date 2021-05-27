@@ -23,7 +23,9 @@ We implemented backend calls to the database using serverless functions (Netlify
 
 Because we both wanted to learn the full stack of development, we decided to swap roles (front-end <-> back-end) midway through the project in order to maxmize learning. The downside was that we spent more time catching up with what the other person had coded and understanding the work.
 
-## Team Members
+## Team Members - Who we are
+
+We are Andrei and Lucas, 2 University of Waterloo Computer Science undergraduate students with a strong passion for the tech industry. See our other projects below:
 
 Lucas Wang: https://github.com/LucasWangTO
 Andrei Gliga: https://github.com/hyp3rion123

@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Demo
 
-![Gif Demo of https://seekers.netlify.app/](https://youtu.be/zZg7QdkT2jo)
+![Gif Demo of https://seekers.netlify.app/](https://media.giphy.com/media/5h7vhAZCBDHmg0j0Sy/giphy.gif)
 
 Check out the [youtube demo](https://youtu.be/zZg7QdkT2jo) and the [webpage](https://seekers.netlify.app/).
 

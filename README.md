@@ -9,6 +9,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Check out the [youtube demo](https://youtu.be/zZg7QdkT2jo) and the [webpage](https://seekers.netlify.app/).
 
+Want to skip creating an account? View the page instead [here](https://crowdseek.ml/).
+
 ## Description
 
 Seekers is a platform that allows users to share information about where personal possessions were lost or/and found. With LeafletJS, we provide the option for users to select the location where the item was lost/found on a map and create a post with their relevant information. Additionally, users can browse existing posts that are stored on a FaunaDB database.
